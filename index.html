@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Life Level Up - Tracker</title>
+    <style>
+        :root {
+            --bg: #0d1117;
+            --card: #161b22;
+            --accent: #58a6ff;
+            --success: #238636;
+            --neon: #00ffc3;
+        }
+        body {
+            background-color: var(--bg);
+            color: white;
+            font-family: 'Segoe UI', sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+            margin: 0;
+        }
+        .container {
+            width: 100%;
+            max-width: 400px;
+        }
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .stats-card {
+            background: var(--card);
+            padding: 20px;
+            border-radius: 15px;
+            border: 1px solid #30363d;
+            box-shadow: 0 0 15px rgba(0, 255, 195, 0.1);
+            margin-bottom: 20px;
+        }
+        .progress-container {
+            background: #30363d;
+            height: 12px;
+            border-radius: 6px;
+            overflow: hidden;
+            margin-top: 10px;
+        }
+        #progress-bar {
+            background: linear-gradient(90deg, var(--accent), var(--neon));
+            height: 100%;
+            width: 0%;
+            transition: width 0.4s ease;
+            box-shadow: 0 0 10px var(--neon);
+        }
+        .task-list {
+            list-style: none;
+            padding: 0;
+        }
+        .task-item {
+            background: var(--card);
+            margin-bottom: 10px;
+            padding: 15px;
+            border-radius: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-left: 4px solid var(--accent);
+            transition: transform 0.2s;
+        }
+        .task-item:active { transform: scale(0.98); }
+        input[type="checkbox"] {
+            width: 24px;
+            height: 24px;
+            cursor: pointer;
+            accent-color: var(--neon);
+        }
+        .level-text { font-weight: bold; color: var(--neon); }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="header">
+        <h1>LVL <span id="lvl">1</span></h1>
+        <p>Система прокачки жизни</p>
+    </div>
+
+    <div class="stats-card">
+        <div style="display: flex; justify-content: space-between;">
+            <span>Дневной прогресс</span>
+            <span id="percent">0%</span>
+        </div>
+        <div class="progress-container">
+            <div id="progress-bar"></div>
+        </div>
+        <p style="font-size: 12px; color: #8b949e; margin-top: 10px;">Выполни 5 задач для Level Up</p>
+    </div>
+
+    <ul class="task-list">
+        <li class="task-item"><span>Утренняя тренировка</span> <input type="checkbox" class="task-check"></li>
+        <li class="task-item"><span>Чтение (20 мин)</span> <input type="checkbox" class="task-check"></li>
+        <li class="task-item"><span>Планирование дня</span> <input type="checkbox" class="task-check"></li>
+        <li class="task-item"><span>Медитация</span> <input type="checkbox" class="task-check"></li>
+        <li class="task-item"><span>Курс обучения</span> <input type="checkbox" class="task-check"></li>
+    </ul>
+</div>
+
+<script>
+    const checks = document.querySelectorAll('.task-check');
+    const bar = document.getElementById('progress-bar');
+    const percentText = document.getElementById('percent');
+    const lvlText = document.getElementById('lvl');
+
+    checks.forEach(check => {
+        check.addEventListener('change', () => {
+            const checkedCount = document.querySelectorAll('.task-check:checked').length;
+            const total = checks.length;
+            const progress = (checkedCount / total) * 100;
+            
+            bar.style.width = progress + '%';
+            percentText.innerText = Math.round(progress) + '%';
+            
+            if (progress === 100) {
+                lvlText.innerText = "2";
+                lvlText.style.textShadow = "0 0 10px #00ffc3";
+                alert("LEVEL UP! Вы красавчик!");
+            } else {
+                lvlText.innerText = "1";
+            }
+        });
+    });
+</script>
+
+</body>
+</html>
